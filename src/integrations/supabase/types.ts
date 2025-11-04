@@ -14,13 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      link_analytics: {
+        Row: {
+          city: string | null
+          clicked_at: string
+          country: string | null
+          device_type: string | null
+          id: string
+          link_id: string
+          referer: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          city?: string | null
+          clicked_at?: string
+          country?: string | null
+          device_type?: string | null
+          id?: string
+          link_id: string
+          referer?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          city?: string | null
+          clicked_at?: string
+          country?: string | null
+          device_type?: string | null
+          id?: string
+          link_id?: string
+          referer?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_analytics_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      links: {
+        Row: {
+          clicks: number
+          created_at: string
+          custom_code: boolean | null
+          expires_at: string | null
+          id: string
+          last_clicked_at: string | null
+          original_url: string
+          qr_code: string | null
+          short_code: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          clicks?: number
+          created_at?: string
+          custom_code?: boolean | null
+          expires_at?: string | null
+          id?: string
+          last_clicked_at?: string | null
+          original_url: string
+          qr_code?: string | null
+          short_code: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          clicks?: number
+          created_at?: string
+          custom_code?: boolean | null
+          expires_at?: string | null
+          id?: string
+          last_clicked_at?: string | null
+          original_url?: string
+          qr_code?: string | null
+          short_code?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      delete_expired_links: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

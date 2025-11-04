@@ -30,11 +30,24 @@ const Redirect = () => {
           return;
         }
 
-        // Increment click count
+        // Increment click count and update last clicked
         await supabase
           .from('links')
-          .update({ clicks: link.clicks + 1 })
+          .update({ 
+            clicks: link.clicks + 1,
+            last_clicked_at: new Date().toISOString()
+          })
           .eq('id', link.id);
+
+        // Save analytics
+        await supabase
+          .from('link_analytics')
+          .insert({
+            link_id: link.id,
+            user_agent: navigator.userAgent,
+            referer: document.referrer,
+            device_type: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+          });
 
         // Redirect to original URL
         window.location.href = link.original_url;
