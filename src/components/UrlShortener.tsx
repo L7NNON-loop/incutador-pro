@@ -137,7 +137,7 @@ export const UrlShortener = () => {
       }
 
       // Generate QR code
-      const fullUrl = `${window.location.origin}/r/${shortCode}`;
+      const fullUrl = `${window.location.origin}/${shortCode}`;
       const qrCodeData = await generateQRCode(fullUrl);
 
       // Calculate expiration date if set
@@ -184,7 +184,7 @@ export const UrlShortener = () => {
   };
 
   const handleCopy = async (shortCode: string, id: string) => {
-    const fullUrl = `${window.location.origin}/r/${shortCode}`;
+    const fullUrl = `${window.location.origin}/${shortCode}`;
     await navigator.clipboard.writeText(fullUrl);
     setCopiedId(id);
     toast.success("Link copiado!");
@@ -193,7 +193,7 @@ export const UrlShortener = () => {
 
   const handleShowQR = (qrCode: string | null, shortCode: string) => {
     setSelectedQrCode(qrCode);
-    setSelectedShortUrl(`${window.location.origin}/r/${shortCode}`);
+    setSelectedShortUrl(`${window.location.origin}/${shortCode}`);
     setQrModalOpen(true);
   };
 
@@ -304,8 +304,8 @@ export const UrlShortener = () => {
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0 space-y-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-base font-bold text-primary truncate">
-                            {window.location.origin}/r/{link.short_code}
+                          <span className="text-sm md:text-base font-bold text-primary break-all">
+                            {window.location.origin}/{link.short_code}
                           </span>
                           {link.custom_code && (
                             <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
@@ -314,19 +314,20 @@ export const UrlShortener = () => {
                           )}
                           {link.expires_at && (
                             <span className="text-xs bg-warning/10 text-warning px-2 py-1 rounded-full flex items-center gap-1">
-                              <Calendar className="h-3 w-3" />
-                              Expira em {new Date(link.expires_at).toLocaleDateString("pt-BR")}
+                              <Calendar className="h-3 w-3 flex-shrink-0" />
+                              <span className="hidden sm:inline">Expira em </span>
+                              {new Date(link.expires_at).toLocaleDateString("pt-BR")}
                             </span>
                           )}
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
                           <ExternalLink className="h-3.5 w-3.5 flex-shrink-0" />
-                          <span className="truncate">{link.original_url}</span>
+                          <span className="truncate break-all">{link.original_url}</span>
                         </div>
-                        <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2 md:gap-3 text-xs md:text-sm text-muted-foreground flex-wrap">
                           <span className="font-semibold">{link.clicks} cliques</span>
-                          <span>•</span>
-                          <span>
+                          <span className="hidden sm:inline">•</span>
+                          <span className="text-xs">
                             {new Date(link.created_at).toLocaleDateString("pt-BR")}
                           </span>
                         </div>
@@ -338,17 +339,17 @@ export const UrlShortener = () => {
                         variant="outline"
                         size="sm"
                         onClick={() => handleCopy(link.short_code, link.id)}
-                        className="h-9"
+                        className="h-8 md:h-9 text-xs md:text-sm"
                       >
                         {copiedId === link.id ? (
                           <>
-                            <CheckCheck className="mr-2 h-4 w-4" />
-                            Copiado!
+                            <CheckCheck className="mr-1 md:mr-2 h-3.5 md:h-4 w-3.5 md:w-4" />
+                            <span className="hidden sm:inline">Copiado!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="mr-2 h-4 w-4" />
-                            Copiar
+                            <Copy className="mr-1 md:mr-2 h-3.5 md:h-4 w-3.5 md:w-4" />
+                            <span className="hidden sm:inline">Copiar</span>
                           </>
                         )}
                       </Button>
@@ -356,28 +357,28 @@ export const UrlShortener = () => {
                         variant="outline"
                         size="sm"
                         onClick={() => handleShowQR(link.qr_code, link.short_code)}
-                        className="h-9"
+                        className="h-8 md:h-9 text-xs md:text-sm"
                       >
-                        <QrCode className="mr-2 h-4 w-4" />
-                        QR Code
+                        <QrCode className="mr-1 md:mr-2 h-3.5 md:h-4 w-3.5 md:w-4" />
+                        <span className="hidden sm:inline">QR Code</span>
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleShowAnalytics(link.id, link.short_code)}
-                        className="h-9"
+                        className="h-8 md:h-9 text-xs md:text-sm"
                       >
-                        <BarChart3 className="mr-2 h-4 w-4" />
-                        Analytics
+                        <BarChart3 className="mr-1 md:mr-2 h-3.5 md:h-4 w-3.5 md:w-4" />
+                        <span className="hidden sm:inline">Analytics</span>
                       </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleDelete(link.id)}
-                        className="h-9 text-destructive hover:bg-destructive/10"
+                        className="h-8 md:h-9 text-xs md:text-sm text-destructive hover:bg-destructive/10"
                       >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Excluir
+                        <Trash2 className="mr-1 md:mr-2 h-3.5 md:h-4 w-3.5 md:w-4" />
+                        <span className="hidden sm:inline">Excluir</span>
                       </Button>
                     </div>
                   </div>

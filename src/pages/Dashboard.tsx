@@ -1,22 +1,23 @@
 import { UrlShortener } from "@/components/UrlShortener";
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
 import { Footer } from "@/components/Footer";
-import { Features } from "@/components/Features";
-import { Stats } from "@/components/Stats";
-import { Comparison } from "@/components/Comparison";
 
-const Index = () => {
+const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-hero flex flex-col">
       <Header />
       
       <main className="flex-1 container mx-auto px-4 pt-24 pb-12">
-        <Hero />
-        <Stats />
+        <div className="text-center space-y-4 mb-12 animate-fade-in">
+          <h1 className="text-3xl md:text-4xl font-bold">
+            Meus Links
+          </h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Crie, gerencie e analise seus links encurtados em um só lugar
+          </p>
+        </div>
+
         <UrlShortener />
-        <Features />
-        <Comparison />
       </main>
 
       <Footer />
@@ -24,4 +25,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Dashboard;
