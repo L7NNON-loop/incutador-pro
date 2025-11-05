@@ -7,6 +7,9 @@ import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Redirect from "./pages/Redirect";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
+import Pricing from "./pages/Pricing";
+import SMS from "./pages/SMS";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +21,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/sms" element={<SMS />} />
           <Route path="/:code" element={<Redirect />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      code_redemptions: {
+        Row: {
+          code_id: string
+          credits_received: number
+          id: string
+          redeemed_at: string
+          user_id: string
+        }
+        Insert: {
+          code_id: string
+          credits_received: number
+          id?: string
+          redeemed_at?: string
+          user_id: string
+        }
+        Update: {
+          code_id?: string
+          credits_received?: number
+          id?: string
+          redeemed_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "code_redemptions_code_id_fkey"
+            columns: ["code_id"]
+            isOneToOne: false
+            referencedRelation: "redeem_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       link_analytics: {
         Row: {
           city: string | null
@@ -59,6 +91,7 @@ export type Database = {
         Row: {
           clicks: number
           created_at: string
+          credits_used: number | null
           custom_code: boolean | null
           expires_at: string | null
           id: string
@@ -72,6 +105,7 @@ export type Database = {
         Insert: {
           clicks?: number
           created_at?: string
+          credits_used?: number | null
           custom_code?: boolean | null
           expires_at?: string | null
           id?: string
@@ -85,6 +119,7 @@ export type Database = {
         Update: {
           clicks?: number
           created_at?: string
+          credits_used?: number | null
           custom_code?: boolean | null
           expires_at?: string | null
           id?: string
@@ -97,12 +132,161 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      redeem_codes: {
+        Row: {
+          active: boolean | null
+          code: string
+          created_at: string
+          credits: number
+          current_uses: number | null
+          id: string
+          max_uses: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          code: string
+          created_at?: string
+          credits: number
+          current_uses?: number | null
+          id?: string
+          max_uses?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          code?: string
+          created_at?: string
+          credits?: number
+          current_uses?: number | null
+          id?: string
+          max_uses?: number | null
+        }
+        Relationships: []
+      }
+      sms_messages: {
+        Row: {
+          created_at: string
+          credits_used: number | null
+          id: string
+          message: string
+          phone_number: string
+          sender_name: string | null
+          sent_at: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          credits_used?: number | null
+          id?: string
+          message: string
+          phone_number: string
+          sender_name?: string | null
+          sent_at?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          credits_used?: number | null
+          id?: string
+          message?: string
+          phone_number?: string
+          sender_name?: string | null
+          sent_at?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_credits: {
+        Row: {
+          created_at: string
+          credits: number
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          credits?: number
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          credits?: number
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_subscriptions: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          plan_type: string
+          price_usd: number
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan_type: string
+          price_usd: number
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan_type?: string
+          price_usd?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
       delete_expired_links: { Args: never; Returns: undefined }
+      redeem_code: { Args: { code_text: string }; Returns: Json }
+      use_credits: { Args: { amount: number }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
